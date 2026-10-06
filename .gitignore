@@ -6,6 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+.agents
+.claude
+.windsurf
+prisma/generated/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -147,3 +152,5 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+/src/generated/prisma

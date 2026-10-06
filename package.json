@@ -1,0 +1,31 @@
+{
+  "name": "course-platform-backend",
+  "version": "1.0.1",
+  "description": "course platform API, built with Node.js, Express, Typescript, and Postgresql Database.",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/app.ts",
+    "dev": "nodemon src/app.ts"
+  },
+  "keywords": [],
+  "author": "Mersad Mosayebi",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "dotenv": "^18.0.5",
+    "express-validator": "^7.3.2",
+    "pg": "^8.23.1",
+    "prisma": "^7.10.0"
+  }
+}
