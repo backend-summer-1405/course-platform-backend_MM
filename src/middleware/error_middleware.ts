@@ -2,15 +2,15 @@ import { validationResult } from "express-validator";
 import type {NextFunction, Request, Response} from "express";
 
 
-const globalError_Middleware = (error:any, request:Request, response:Response) => {
+const globalError_Middleware = (error: any, request: Request, response: Response, next: NextFunction) => {
   const statusCode = error.statusCode || 500;
   console.log("error :", error.message, statusCode, error);
   response.status(statusCode).json({
     status: statusCode,
     message: error.message,
-    error : String(error)
+    error: String(error)
   });
-}; 
+};
 
 
 const validate = (validations:any):Array<any> => {

@@ -7,16 +7,35 @@
 --user
    |
    |  id : String @id @default(uuid())
-   |  userName : String (contain fname or lname of the User)
+   |  userName : String (contain fname and lname of the User)
    |  email : String (...@gmail.com) unique
-   |  password : String 
-   |  role : String ("user","admin") default : user
+   |  phoneNumber: string
+   |  password : String(hashed) 
+   |  role : String ("user","teacher","editor","admin") default : student
    |  profileImage: string
    |  images : Array (UserImage[]) --relation
-   |  favorites : Array (course[]) --relation
-   |  course : Array (course[]) --relation after buy the course
-   |  podcast : Array (podcast[]) --relation
-   |  
+    |  favorite_course : Array (course[]) --relation
+    |  favorite_podcast : Array (podcast[]) --relation
+    |  purchase_course : Array (course[]) --relation after buy  course
+    |  purchase_podcast : Array (podcast[]) --relation after buy podcast
+
+
+if role = teacher   
+   |
+   |_courses : Array (course[]) --relation with teacher_id
+   |_podcast : Array (podcast[]) --relation with teacher_id
+
+if role = editor   
+    |
+    |_news : Array (podcast[]) --relation with editor_id
+
+if role = admin
+    |_manage course,podcast,news,user
+
+
+
+
+
    ----------------------------------
 
 --course

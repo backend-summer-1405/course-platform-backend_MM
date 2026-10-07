@@ -2,12 +2,13 @@ import express from "express";
 import type { Request,Response,RequestHandler } from "express";
 import {globalError_Middleware} from "./middleware/error_middleware.ts";
 import "dotenv/config";
+import { user_route } from "./modules/user/user_route.ts";
 
 const app = express();
 const port = process.env.PORT;
 app.use(express.json());
 
-
+app.use("/user",user_route);
 
  
 app.get("/",(req:Request,res:Response)=>{

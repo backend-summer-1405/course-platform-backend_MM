@@ -11,3 +11,100 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum AccountType {
+  User
+  Teacher
+  Author
+  Admin
+}
+
+
+// ============ Person ============
+
+model Person {
+  id              String            @id @default(uuid())
+  email           String            @unique
+  phoneNumber     String            @unique
+  password        String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  accounts        Account[]
+
+}
+
+// ============ userAccount ============
+
+model Account {
+  id             String      @id @default(uuid())
+  type           AccountType
+  isActive       Boolean     @default(true)
+  personId       String
+  person         Person      @relation(fields: [personId], references: [id])
+  displayName    String?
+  bio            String?
+  profileImage   String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  userProfile    UserProfile?
+  teacherProfile TeacherProfile?
+  AuthorProfile  AuthorProfile?
+  adminProfile   AdminProfile?
+  wallet         Wallet?
+
+}
+
+
+
+// ============ profile ============
+
+model UserProfile {
+  id        String   @id @default(uuid())
+  accountId String   @unique
+  account   Account  @relation(fields: [accountId], references: [id])
+  createdAt DateTime @default(now())
+
+}
+
+model TeacherProfile {
+  id              String   @id @default(uuid())
+  accountId       String   @unique
+  account         Account  @relation(fields: [accountId], references: [id])
+  expertise       String
+  experienceYears Int
+  bio             String?
+  createdAt       DateTime @default(now())
+
+  // courses  Course[]
+  // podcasts Podcast[]
+}
+
+model AuthorProfile {
+  id        String   @id @default(uuid())
+  accountId String   @unique
+  account   Account  @relation(fields: [accountId], references: [id])
+  createdAt DateTime @default(now())
+
+  // news News[]
+}
+
+model AdminProfile {
+  id        String   @id @default(uuid())
+  accountId String   @unique
+  account   Account  @relation(fields: [accountId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+// ============ wallet ============
+
+model Wallet {
+  id        String   @id @default(uuid())
+  balance   Int      @default(0) 
+  accountId String   @unique
+  account   Account  @relation(fields: [accountId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
