@@ -20,18 +20,37 @@ enum AccountType {
 }
 
 
+
 // ============ Person ============
 
 model Person {
   id              String            @id @default(uuid())
-  email           String            @unique
+  email           String?           @unique
   phoneNumber     String            @unique
   password        String
+  displayName    String?
+  bio            String?
+  profileImage   String?
+  personImage    personImage[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 
   accounts        Account[]
+  otpCode         otpCode[]
+}
 
+
+// ============ OTPCode ============
+
+model otpCode {
+   id         Int  @id @default(autoincrement())
+   personId   String @unique
+   otpCode    String
+   expiresAt DateTime
+   used      Boolean  @default(false)
+   createdAt DateTime @default(now())
+ 
+   person    Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
 }
 
 // ============ userAccount ============
@@ -41,16 +60,13 @@ model Account {
   type           AccountType
   isActive       Boolean     @default(true)
   personId       String
-  person         Person      @relation(fields: [personId], references: [id])
-  displayName    String?
-  bio            String?
-  profileImage   String?
+  person         Person      @relation(fields: [personId], references: [id],onDelete: Cascade)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
   userProfile    UserProfile?
   teacherProfile TeacherProfile?
-  AuthorProfile  AuthorProfile?
+  authorProfile  AuthorProfile?
   adminProfile   AdminProfile?
   wallet         Wallet?
 
@@ -63,7 +79,7 @@ model Account {
 model UserProfile {
   id        String   @id @default(uuid())
   accountId String   @unique
-  account   Account  @relation(fields: [accountId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
 
 }
@@ -71,7 +87,7 @@ model UserProfile {
 model TeacherProfile {
   id              String   @id @default(uuid())
   accountId       String   @unique
-  account         Account  @relation(fields: [accountId], references: [id])
+  account         Account  @relation(fields: [accountId], references: [id],onDelete: Cascade)
   expertise       String
   experienceYears Int
   bio             String?
@@ -84,7 +100,7 @@ model TeacherProfile {
 model AuthorProfile {
   id        String   @id @default(uuid())
   accountId String   @unique
-  account   Account  @relation(fields: [accountId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
 
   // news News[]
@@ -93,7 +109,7 @@ model AuthorProfile {
 model AdminProfile {
   id        String   @id @default(uuid())
   accountId String   @unique
-  account   Account  @relation(fields: [accountId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -103,8 +119,18 @@ model Wallet {
   id        String   @id @default(uuid())
   balance   Int      @default(0) 
   accountId String   @unique
-  account   Account  @relation(fields: [accountId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+}
+
+
+// ============ images ============
+
+model personImage {
+   id           String  @id @default(uuid())
+   url          String
+   personId     String
+   person Person @relation(fields: [personId], references: [id],onDelete: Cascade)
 }

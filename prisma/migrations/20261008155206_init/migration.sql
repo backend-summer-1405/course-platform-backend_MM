@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "AccountType" AS ENUM ('User', 'Teacher', 'Editor', 'Admin');
+CREATE TYPE "AccountType" AS ENUM ('User', 'Teacher', 'Author', 'Admin');
 
 -- CreateTable
 CREATE TABLE "Person" (
@@ -50,12 +50,12 @@ CREATE TABLE "TeacherProfile" (
 );
 
 -- CreateTable
-CREATE TABLE "EditorProfile" (
+CREATE TABLE "AuthorProfile" (
     "id" TEXT NOT NULL,
     "accountId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "EditorProfile_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "AuthorProfile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -91,7 +91,7 @@ CREATE UNIQUE INDEX "UserProfile_accountId_key" ON "UserProfile"("accountId");
 CREATE UNIQUE INDEX "TeacherProfile_accountId_key" ON "TeacherProfile"("accountId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "EditorProfile_accountId_key" ON "EditorProfile"("accountId");
+CREATE UNIQUE INDEX "AuthorProfile_accountId_key" ON "AuthorProfile"("accountId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AdminProfile_accountId_key" ON "AdminProfile"("accountId");
@@ -109,7 +109,7 @@ ALTER TABLE "UserProfile" ADD CONSTRAINT "UserProfile_accountId_fkey" FOREIGN KE
 ALTER TABLE "TeacherProfile" ADD CONSTRAINT "TeacherProfile_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EditorProfile" ADD CONSTRAINT "EditorProfile_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AuthorProfile" ADD CONSTRAINT "AuthorProfile_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AdminProfile" ADD CONSTRAINT "AdminProfile_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
