@@ -26,7 +26,7 @@ enum AccountType {
 model Person {
   id              String            @id @default(uuid())
   email           String?           @unique
-  phoneNumber     String            @unique
+  phoneNumber     String?            @unique
   password        String
   displayName    String?
   bio            String?
